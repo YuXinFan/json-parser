@@ -91,7 +91,7 @@ public:
     }
   }
 
-  JsonNode &operator[](const object::key_type &key) const {
+  JsonNode &operator[](const std::string &key) const {
     if (type_ != JSON_OBJECT) {
       throw std::runtime_error("query on non-object node");
     } else {

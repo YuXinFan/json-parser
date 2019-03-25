@@ -18,13 +18,13 @@ JsonNode::JsonNode(const JsonNode &rhs) {
       v_number_ = rhs.get_number();
       break;
     case JSON_STRING:
-      new(&v_string_) std::unique_ptr<std::string>(new std::string{rhs.get_string()});
+      new(&v_string_) std::unique_ptr<std::string>(new std::string{*rhs.v_string_});
       break;
     case JSON_ARRAY:
-      new(&v_array_) std::unique_ptr<array>(new array{rhs.get_array()});
+      new(&v_array_) std::unique_ptr<array>(new array{*rhs.v_array_});
       break;
     case JSON_OBJECT:
-      new(&v_object_) std::unique_ptr<object>(new object{rhs.get_object()});
+      new(&v_object_) std::unique_ptr<object>(new object{*rhs.v_object_});
       break;
   }
 }

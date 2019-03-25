@@ -67,22 +67,6 @@ public:
     }
   }
 
-  array &get_array() const {
-    if (type_ != JSON_ARRAY) {
-      throw std::runtime_error("get_array on non-array node");
-    } else {
-      return *v_array_;
-    }
-  }
-
-  object &get_object() const {
-    if (type_ != JSON_OBJECT) {
-      throw std::runtime_error("get_object on non-object node");
-    } else {
-      return *v_object_;
-    }
-  }
-
   JsonNode &operator[](const size_t idx) const {
     if (type_ != JSON_ARRAY) {
       throw std::runtime_error("indexing on non-array node");

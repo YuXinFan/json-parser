@@ -75,8 +75,9 @@ std::unique_ptr<JsonNode> Json::parse(const std::string &fin) noexcept {
   // TODO: Implement main parsing procedure here, some notices:
   //   1. You may find helper functions in `utils/parsers.hpp` useful. Note that
   //      we did not provide `parse_null`, why?
-  //   2. Note that JsonNode is non-copyable, you should initialize `string`,
-  //      `array` and `object` types by passing r-valued unique_ptr;
+  //   2. Note that actual data that larger than 4 bytes is hold by `shared_ptr`
+  //      you should construct `string`, `array` and `object` types by passing
+  //      r-valued `unique_ptr`s;
   //   3. DO NOT throw exceptions out of this function. If an internal exception
   //      occurs, e.g. get invalid input, just catch that exception, modify the
   //      `error_info_` and return a `nullptr`;

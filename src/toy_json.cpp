@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 #include "toy_json.hpp"
 #include "utils/parsers.hpp"
@@ -75,7 +76,7 @@ std::unique_ptr<JsonNode> Json::parse(const std::string &fin) noexcept {
   // TODO: Implement main parsing procedure here, some notices:
   //   1. You may find helper functions in `utils/parsers.hpp` useful. Note that
   //      we did not provide `parse_null`, why?
-  //   2. Note that actual data that larger than 4 bytes is hold by `shared_ptr`
+  //   2. Note that actual data that larger than 8 bytes is hold by `shared_ptr`
   //      you should construct `string`, `array` and `object` types by passing
   //      r-valued `unique_ptr`s;
   //   3. DO NOT throw exceptions out of this function. If an internal exception
@@ -90,8 +91,21 @@ std::unique_ptr<JsonNode> Json::parse(const std::string &fin) noexcept {
   //      - fail parsing `string`:  `parsing string type failed`
   //      - fail parsing `array`:   `parsing array type failed`
   //      - fail parsing `object`:  `parsing object type failed`
+  // std::string fin_no_space = std::string(fin);
+  // bool is_space = [](std::string s)-> bool {return s == " "|| s == "  ";};
+  // fin_no_space.erase(remove_if(fin_no_space.begin(), fin_no_space.end(), isspace), fin_no_space.end());
+  
+  // std::string::const_iterator root_it = fin_no_space.begin();
+  // JsonNode::object root = parse_object( root_it );
+  // std::unique_ptr<JsonNode> root_node(new JsonNode(&root));
+  
+  std::string::const_iterator root_it = fin.cbegin();
+  JsonNode::object root = parse_object( root_it );
+  std::unique_ptr<JsonNode::object> root_ptr = std::make_unique<JsonNode::object>( root );
+  JsonNode root_node = new JsonNode(std::move(root_ptr));
+  std::unique_ptr<JsonNode> root_node_ptr = std::make_unique<JsonNode>( root_node );
+  return root_node_ptr;
 
-  return nullptr;
 }
 
 }

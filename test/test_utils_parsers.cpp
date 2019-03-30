@@ -115,13 +115,14 @@ TEST(TestUtils, TestParseArray) {
 
   auto b = a1.cbegin(), e = a1.cend();
   auto array_1 = parse_array(b);
+  
   EXPECT_EQ(b, e) << "did you advance the iterator?";
   EXPECT_DOUBLE_EQ(array_1[0].get_number(), 12.3333);
   EXPECT_EQ(array_1[1].get_bool(), false);
   EXPECT_EQ(array_1[2].is_null(), true);
   EXPECT_EQ(array_1[3].get_string(), string("string with space"));
   EXPECT_EQ(array_1[4][0].get_string(), string("\xe5\xa4\xa7\xe5\x93\xa5\xe5\x96\x9d\xe5\x95\xa4\xe9\x85\x92\xf0\x9f\x8d\xba"));
-
+  
   b = a2.cbegin();
   EXPECT_THROW(parse_array(b), std::runtime_error);
   b = a3.cbegin();

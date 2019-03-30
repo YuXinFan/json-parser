@@ -53,6 +53,7 @@ public:
 
   double get_number() const {
     if (type_ != JSON_NUMBER) {
+      std::cout <<"QQQAQ" <<type_ << std::endl;
       throw std::runtime_error("get_number on non-number node");
     } else {
       return v_number_;

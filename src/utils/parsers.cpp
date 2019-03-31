@@ -288,19 +288,27 @@ JsonNode::array parse_array(std::string::const_iterator &str_it) {
       std::unique_ptr<std::string> value_unique_str = std::make_unique<std::string>(value_str);
       value = new JsonNode(std::move(value_unique_str));  
       result.push_back(*value);
-      // std::cout <<"before="<< value_str << std::endl;
-      // std::cout <<"before="<< value->type() << std::endl;
-      // std::cout <<"after = "<< result[0].type()<<std::endl;
-    }else if ( isdigit(*str_it) || *str_it == '-') {
+    }else if ( isdigit(*str_it) || *str_it == '-' || *str_it == '+') {
       double value_number = parse_number(str_it);
       value = new JsonNode(value_number); 
       result.push_back(*value);
-    }else if ( *str_it == 't' || *str_it == 'f') {
+    }else if ( *str_it == 't' || *str_it == 'f'
+             ||*str_it == 'T' || *str_it == 'F') {
       bool value_bool = parse_bool(str_it);
       value = new JsonNode(value_bool);
       result.push_back(*value);  
     }else if ( *str_it == 'n') {
-      str_it+=4;
+      std::string null_str = "null";
+      int len_null = 4;
+      for (int i = 0; i < len_null; i++) {
+        if ( *str_it == '\0') {
+          throw std::runtime_error("parsing null type failed");
+        }
+        if ( *str_it != null_str[i]){    
+          throw std::runtime_error("parsing null type failed");
+        }
+        str_it++;
+      }
       value = new JsonNode();
       result.push_back(*value);
     }else if ( *str_it == '[') {
@@ -344,7 +352,7 @@ JsonNode::object parse_object(std::string::const_iterator &str_it) {
   ignore_space( str_it );
   if ( *str_it != '{') {
     //std::cout <<*str_it<<*(str_it+1)<<*(str_it+2)<<std::endl;
-    throw std::runtime_error("parsing object type1 failed");
+    throw std::runtime_error("parsing object type failed");
   }
   //std::cout <<"QAQ "<<std::endl;
   str_it++;
@@ -356,12 +364,12 @@ JsonNode::object parse_object(std::string::const_iterator &str_it) {
     if ( *str_it == '"') {
       key = parse_string(str_it);
     }else {
-      throw std::runtime_error("parsing object type2 failed");
+      throw std::runtime_error("parsing object type failed");
     }
 
     ignore_space( str_it );
     if (*str_it != ':') {
-        throw std::runtime_error("parsing object type3 failed");
+        throw std::runtime_error("parsing object type failed");
     }
     str_it++;
 
@@ -382,20 +390,33 @@ JsonNode::object parse_object(std::string::const_iterator &str_it) {
       std::unique_ptr<JsonNode::array> value_ptr = std::make_unique<JsonNode::array>(value_array);
       value = new JsonNode(std::move(value_ptr));
       result.insert(std::make_pair(key, *value));
-    }else if ( *str_it == 't' || *str_it == 'f') {
+    }else if ( *str_it == 't' || *str_it == 'f'
+            || *str_it == 'T' || *str_it == 'F') {
       bool value_bool = parse_bool(str_it);
       value = new JsonNode(value_bool);
       result.insert(std::make_pair(key, *value));
     }else if ( *str_it == 'n') {
+      std::string null_str = "null";
+      int len_null = 4;
+      for (int i = 0; i < len_null; i++) {
+        if ( *str_it == '\0') {
+          throw std::runtime_error("parsing null type failed");
+        }
+        if ( *str_it != null_str[i]){
+          
+          throw std::runtime_error("parsing null type failed");
+        }
+        str_it++;
+      }
       value = new JsonNode();
       result.insert(std::make_pair(key, *value));
-    }else if ( *str_it == '-'
+    }else if ( *str_it == '-' || *str_it == '+'
               || isdigit(*str_it) ){
       double value_number = parse_number(str_it);
       value = new JsonNode(value_number);
       result.insert(std::make_pair(key, *value));
     }else {
-      throw std::runtime_error("parsing object type4 failed");
+      throw std::runtime_error("parsing object type failed");
     }
     if (*str_it == '}') {
       str_it++;
@@ -405,7 +426,7 @@ JsonNode::object parse_object(std::string::const_iterator &str_it) {
       str_it++;
       continue;
     }else {
-      throw std::runtime_error("parsing object type5 failed");
+      throw std::runtime_error("parsing object type failed");
     }   
   }
   return result;

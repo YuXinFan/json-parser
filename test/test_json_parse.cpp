@@ -23,9 +23,7 @@ TEST(TestJson, TestParse) {
   EXPECT_EQ((*valid_json_ptr)["key with space"][2].get_bool(), false);
   EXPECT_EQ((*valid_json_ptr)["nested_object"]["k1"].get_string(), string("\xe5\xa4\xa7\xe5\x93\xa5\xe5\x96\x9d\xe5\x95\xa4\xe9\x85\x92"));
   EXPECT_EQ((*valid_json_ptr)["nested_object"]["k2"].get_string(), string("have fun"));
-
   
-
   string invalid_json_path{"../test/data/invalid_null.json"};
   ASSERT_NO_THROW(Json::parse(invalid_json_path));
   std::unique_ptr<JsonNode> invalid_json_ptr = Json::parse(invalid_json_path);

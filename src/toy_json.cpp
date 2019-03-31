@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <fstream>
 
 #include "toy_json.hpp"
 #include "utils/parsers.hpp"
@@ -91,21 +92,19 @@ std::unique_ptr<JsonNode> Json::parse(const std::string &fin) noexcept {
   //      - fail parsing `string`:  `parsing string type failed`
   //      - fail parsing `array`:   `parsing array type failed`
   //      - fail parsing `object`:  `parsing object type failed`
-  // std::string fin_no_space = std::string(fin);
-  // bool is_space = [](std::string s)-> bool {return s == " "|| s == "  ";};
-  // fin_no_space.erase(remove_if(fin_no_space.begin(), fin_no_space.end(), isspace), fin_no_space.end());
-  
-  // std::string::const_iterator root_it = fin_no_space.begin();
-  // JsonNode::object root = parse_object( root_it );
-  // std::unique_ptr<JsonNode> root_node(new JsonNode(&root));
-  
-  std::string::const_iterator root_it = fin.cbegin();
+  std::ifstream file(fin);
+  std::string json = std::string((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+  //std::cout << json<<std::endl;
+  std::string::const_iterator root_it = json.cbegin();
+  try{
   JsonNode::object root = parse_object( root_it );
   std::unique_ptr<JsonNode::object> root_ptr = std::make_unique<JsonNode::object>( root );
-  JsonNode root_node = new JsonNode(std::move(root_ptr));
-  std::unique_ptr<JsonNode> root_node_ptr = std::make_unique<JsonNode>( root_node );
+  JsonNode *root_node = new JsonNode(std::move(root_ptr));
+  std::unique_ptr<JsonNode> root_node_ptr = std::make_unique<JsonNode>( *root_node );
   return root_node_ptr;
-
+  }catch (std::runtime_error &e){
+    error_info_ = e.what();
+    return nullptr;
+  }
 }
-
 }

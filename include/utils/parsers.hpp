@@ -20,6 +20,9 @@ JsonNode::array parse_array(std::string::const_iterator &str_it);
 
 JsonNode::object parse_object(std::string::const_iterator &str_it);
 
+// Helper Function
+bool ignore_space(std::string::const_iterator &str_it);
+void parse_digits_in_number( std::string::const_iterator &str_it, int &len );
+std::string parse_unicode_in_string( std::string::const_iterator &str_it );
 }
-
 #endif //TOYJSON_PARSERS_HPP

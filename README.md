@@ -2,7 +2,7 @@
 
 Name | Stu. ID | Travis Stat.
 -----|---------|-------------
-Fan Yuxin | 57881161 | TRAVIS BUILD STATUS
+Fan Yuxin | 57881161 | [![Build Status](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan.svg?token=appyqywAiysphxXppp9y&branch=master)](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan)
 
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. 
 Nowadays it has been widely used as format for configuration files, data exchange

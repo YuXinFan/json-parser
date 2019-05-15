@@ -1,8 +1,6 @@
-# CS133 HW2: JSON Parser
+# Travis Stat.
 
-Name | Stu. ID | Travis Stat.
------|---------|-------------
-Fan Yuxin | 57881161 | [![Build Status](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan.svg?token=appyqywAiysphxXppp9y&branch=master)](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan)
+[![Build Status](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan.svg?token=appyqywAiysphxXppp9y&branch=master)](https://travis-ci.com/sht-cs133/hw2-json-parser-YuXinFan)
 
 JSON (JavaScript Object Notation) is a lightweight data-interchange format. 
 Nowadays it has been widely used as format for configuration files, data exchange
@@ -124,7 +122,7 @@ suggestions in implementing `parse`:
 3. When parsing strings, take good care of backslash escapes, e.g. `"\n"`, `"\t"`, etc.
    Escaped line breakers and tabs should not be treated as removable whitespaces in step 1.;
 
-## Bonus
+
 
 ### Generating json content from parsed json data tree
 
@@ -140,4 +138,4 @@ generated json file by Python `json` module.
 
 You might want to read though this paper: [Parsing Gigabytes of JSON per Second](https://arxiv.org/abs/1902.08318).
 
-> Happy coding~
+
